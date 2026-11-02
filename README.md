@@ -33,16 +33,14 @@ related notes and a graph of how everything fits together.
 
 ## Features
 
-| | |
-|---|---|
-| ✍️ **Writing** | Markdown with live preview: the symbols disappear as you type. Headings, **bold**, *italic*, ~~strike~~, underline, checklists, numbered and bulleted lists, quotes, links |
-| 🧑‍💻 **Code** | Code blocks with automatic language detection and syntax colours, scrolling sideways instead of wrapping |
-| 🖼️ **Media** | Paste or drop images; videos play right inside the note |
-| 🔗 **Connections** | `[[links]]` with autocomplete, backlinks (<kbd>⌘</kbd> <kbd>J</kbd>), `#tags`, related notes, and an interactive graph (<kbd>⌘</kbd> <kbd>G</kbd>) |
-| 🔍 **Search** | <kbd>⌘</kbd> <kbd>K</kbd> full-text search across every note, with pinned notes on top |
-| 🪟 **Mac** | Floating glass panel, several windows side by side (<kbd>⌘</kbd> <kbd>⇧</kbd> <kbd>N</kbd>), reopens exactly where you left off, updates itself |
-| 📱 **Android** | Native app with the same editor, *Share → Jot* from any app, a quick-settings tile, one-tap updates |
-| ☁️ **Sync** | Edits appear on your other devices within a second; works offline and catches up later; conflicts never lose text |
+- ✍️ **Writing**: Markdown with live preview (the symbols disappear as you type). Headings, **bold**, *italic*, ~~strike~~, underline, checklists, numbered and bulleted lists, quotes, links
+- 🧑‍💻 **Code**: Code blocks with automatic language detection and syntax colours, scrolling sideways instead of wrapping
+- 🖼️ **Media**: Paste or drop images; videos play right inside the note
+- 🔗 **Connections**: `[[links]]` with autocomplete, backlinks (<kbd>⌘</kbd> <kbd>J</kbd>), `#tags`, related notes, and an interactive graph (<kbd>⌘</kbd> <kbd>G</kbd>)
+- 🔍 **Search**: <kbd>⌘</kbd> <kbd>K</kbd> full-text search across every note, with pinned notes on top
+- 🪟 **Mac**: Floating glass panel, several windows side by side (<kbd>⌘</kbd> <kbd>⇧</kbd> <kbd>N</kbd>), reopens exactly where you left off, updates itself
+- 📱 **Android**: Native app with the same editor, *Share → Jot* from any app, a quick-settings tile, one-tap updates
+- ☁️ **Sync**: Edits appear on your other devices within a second; works offline and catches up later; conflicts never lose text
 
 ## How private is it?
 
