@@ -831,6 +831,27 @@ struct EditorView: NSViewRepresentable {
                 model.typed(tv.string)
                 model.linkQuery(linkQuery(tv))
             }
+            ruleTyped(tv)
+        }
+        /// the third "-" just made a "---" divider: the caret goes to a new line under it (it would sit on the divider)
+        func ruleTyped(_ tv: NSTextView) {
+            guard let e = NSApp.currentEvent, e.type == .keyDown, e.characters == "-" else { return }
+            let s = tv.string as NSString, sel = tv.selectedRange()
+            guard sel.length == 0, sel.location > 0 else { return }
+            let line = s.lineRange(for: NSRange(location: sel.location, length: 0))
+            var end = NSMaxRange(line)
+            if end > line.location, s.character(at: end - 1) == 10 { end -= 1 }
+            guard sel.location == end else { return }
+            let text = s.substring(with: NSRange(location: line.location, length: end - line.location))
+            guard text.range(of: "^[ \\t]*---$", options: .regularExpression) != nil else { return }
+            if let lm = tv.layoutManager as? JotLayoutManager, lm.codeBlock(atChar: line.location) != nil { return }
+            let at = sel.location
+            DispatchQueue.main.async { [weak tv] in
+                MainActor.assumeIsolated {
+                    guard let tv = tv, tv.selectedRange() == NSRange(location: at, length: 0) else { return }
+                    tv.insertText("\n", replacementRange: NSRange(location: at, length: 0))
+                }
+            }
         }
         /// last caret position per note (this Mac only), so a note reopens where it was left
         static let caretKey = "caretPositions"
