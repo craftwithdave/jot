@@ -1,83 +1,153 @@
+<div align="center">
+
+<img src="docs/icon.png" width="128" alt="Jot app icon">
+
 # Jot
 
-Private notes with a floating panel on the Mac (⌥N) and a native Android app, synced through **your own server**,
-**end-to-end encrypted**: the server only ever stores ciphertext.
+**Your notes, one keystroke away. Private by design.**
 
-- Markdown with live preview (symbols hide while you write): headings, bold/italic/strike/underline, lists,
-  checkboxes, quotes, code blocks with syntax colours, links, images and videos
-- `[[links]]` between notes, backlinks, `#tags`, full-text search, related notes, and a graph of your notes
-- Several Mac windows, each with its own note; they come back after a restart
-- Apps update themselves from your server; no app store, no third-party services
+A floating notes panel for the Mac and a native Android app, synced through a server *you* own,
+end-to-end encrypted.
+
+![macOS 13+](https://img.shields.io/badge/macOS-13%2B-1f6feb?logo=apple&logoColor=white)
+![Android 8+](https://img.shields.io/badge/Android-8%2B-3ddc84?logo=android&logoColor=white)
+![End-to-end encrypted](https://img.shields.io/badge/end--to--end-encrypted-8957e5)
+![Self-hosted](https://img.shields.io/badge/self--hosted-your%20server-555)
+![MIT](https://img.shields.io/badge/license-MIT-blue)
+
+<img src="docs/screenshot-mac.jpg" width="900" alt="Three Jot windows on macOS: a trip note with headings, a checklist, a numbered list, a quote and a code block, and two notes with images and inline videos">
+
+</div>
+
+## Why Jot
+
+**⌨️ Always one keystroke away.** Press <kbd>⌥</kbd> <kbd>N</kbd> anywhere and Jot floats over whatever you're
+doing. Write the thought down, press <kbd>Esc</kbd>, and you're back. No app to switch to and no window to find.
+
+**🔒 Private for real.** Your notes are encrypted on your devices before they leave them. The server, which you
+run yourself, only ever stores scrambled bytes. There are no accounts with anyone, no analytics and no third-party
+services.
+
+**🕸️ Notes that connect.** Link notes with `[[double brackets]]`, tag them with `#tags`, and Jot shows backlinks,
+related notes and a graph of how everything fits together.
+
+## Features
+
+| | |
+|---|---|
+| ✍️ **Writing** | Markdown with live preview: the symbols disappear as you type. Headings, **bold**, *italic*, ~~strike~~, underline, checklists, numbered and bulleted lists, quotes, links |
+| 🧑‍💻 **Code** | Code blocks with automatic language detection and syntax colours, scrolling sideways instead of wrapping |
+| 🖼️ **Media** | Paste or drop images; videos play right inside the note |
+| 🔗 **Connections** | `[[links]]` with autocomplete, backlinks (<kbd>⌘</kbd> <kbd>J</kbd>), `#tags`, related notes, and an interactive graph (<kbd>⌘</kbd> <kbd>G</kbd>) |
+| 🔍 **Search** | <kbd>⌘</kbd> <kbd>K</kbd> full-text search across every note, with pinned notes on top |
+| 🪟 **Mac** | Floating glass panel, several windows side by side (<kbd>⌘</kbd> <kbd>⇧</kbd> <kbd>N</kbd>), reopens exactly where you left off, updates itself |
+| 📱 **Android** | Native app with the same editor, *Share → Jot* from any app, a quick-settings tile, one-tap updates |
+| ☁️ **Sync** | Edits appear on your other devices within a second; works offline and catches up later; conflicts never lose text |
+
+## How private is it?
+
+> **The server can see:** that encrypted notes exist, how big they are, and when they change.
+>
+> **The server can't see:** titles, text, links, tags, images or anything else you write. Everything is sealed
+> with AES-256-GCM on your device, using a key that only your passphrase can unlock.
+>
+> ⚠️ That also means **nobody can recover your notes if you forget your passphrase**, not even you with full access
+> to the server.
+
+## Get started
+
+Jot is self-hosted: you run a tiny server (one file, no dependencies) and the apps sync through it. One server is
+for one person. The first device that connects sets the passphrase.
+
+**1. Run the server** on any machine with Docker, behind HTTPS, ideally reachable only by you (e.g. over
+[Tailscale](https://tailscale.com) or WireGuard):
+
+```sh
+git clone https://github.com/craftwithdave/jot && cd jot/server
+mkdir -p data public && sudo chown 1000:1000 data
+docker compose up -d                                # listens on 127.0.0.1:8080
+```
+
+**2. Install the Mac app.** First publish it to your server, on the server machine:
+
+```sh
+cd ../mac && echo https://notes.example.com > origin.txt && ./publish.sh
+```
+
+Then on your Mac:
+
+```sh
+curl -fsSL https://notes.example.com/mac/install.sh | bash
+```
+
+Jot builds itself from source (about a minute), starts at login and lives in the menu bar. Press
+<kbd>⌥</kbd> <kbd>N</kbd> and choose your passphrase.
+
+**3. Install the Android app** (needs Docker on the server machine):
+
+```sh
+cd ../android && echo https://notes.example.com > origin.txt && ./build.sh "first version"
+```
+
+Open `https://notes.example.com/android/jot.apk` on your phone. Later versions install with one tap from inside
+the app.
+
+<details>
+<summary><b>For developers</b></summary>
+
+### Layout
 
 | Folder | What |
 |---|---|
-| `server/` | Sync server: one file, plain Node, no dependencies (`server.js`) + Docker Compose file |
+| `server/` | Sync server: `server.js` (plain Node, no dependencies) + Docker Compose file |
 | `spec/` | Reference implementation of the crypto, note logic and sync rules (JS); both apps are tested against its fixtures |
-| `mac/` | Mac app (Swift, AppKit + SwiftUI). Built from source on the Mac by `install.sh` |
-| `android/` | Android app (Kotlin, Jetpack Compose). Built in Docker by `build.sh` |
+| `mac/` | Mac app (Swift, AppKit + SwiftUI), built on the Mac by `install.sh` |
+| `android/` | Android app (Kotlin, Jetpack Compose), built in Docker by `build.sh` |
 
-## How the encryption works
-A random 256-bit data key encrypts every note and file on the device (AES-256-GCM). The server keeps that key only
-*wrapped* with a key derived from your passphrase (PBKDF2), plus a hash to check the passphrase. **If you lose the
-passphrase, your notes can't be recovered.**
+### HTTPS in front of the server
 
-The server is **single-user**: the first device that connects sets the passphrase and claims it. So run it where
-only you can reach it (a VPN such as Tailscale or WireGuard, or an IP allow-list), behind HTTPS.
+For example with Caddy:
 
-## 1. Run the server
-```sh
-cd server
-mkdir -p data public && sudo chown 1000:1000 data     # the container runs as uid 1000 ("node")
-docker compose up -d                                   # listens on 127.0.0.1:8080
-```
-Put an HTTPS reverse proxy in front of it, e.g. Caddy:
 ```
 notes.example.com {
     reverse_proxy 127.0.0.1:8080
 }
 ```
-Back up `server/data/` (it's encrypted, but it's all your notes).
 
-## 2. Mac app (macOS 13+)
-On the machine that holds the server folder:
-```sh
-cd mac
-echo https://notes.example.com > origin.txt     # your server
-./publish.sh                                    # copies the source to server/public/mac/
-```
-Then on the Mac (needs Apple's Command Line Tools; the script offers to install them):
-```sh
-curl -fsSL https://notes.example.com/mac/install.sh | bash
-```
-Jot builds itself, starts at login, lives in the menu bar (✎) and opens with ⌥N. Every later `./publish.sh` is
-picked up by the Mac app on its own (menu-bar icon → Update Automatically).
+Back up `server/data/`. It's encrypted, but it's all your notes.
 
-## 3. Android app (Android 8+)
-Needs Docker (the Android SDK lives only in the build image):
-```sh
-cd android
-echo https://notes.example.com > origin.txt
-./build.sh "first version"       # tests + signed APK → dist/jot.apk, also copied to server/public/android/
-```
-Open `https://notes.example.com/android/jot.apk` on the phone once; later builds install with one tap from inside
-the app. The first run of `build.sh` creates your signing key in `android/keys/`: **back it up and never publish
-it**. Without it, phones can't update the app in place.
+### Encryption
 
-If you're publishing your own fork, change the app IDs: `app.jot` (Android, `android/app/build.gradle.kts`) and
-`app.jot.mac` (Mac, `mac/install.sh`).
+A random 256-bit data key encrypts every note and file on the device (AES-256-GCM). The server stores that key only
+wrapped with a key derived from your passphrase (PBKDF2-SHA256), plus a hash to check the passphrase.
 
-## Tests
+### Android signing key
+
+The first `build.sh` run creates your signing key in `android/keys/`. **Back it up and never publish it.**
+Without it, phones can't update the app in place.
+
+### Forking
+
+Change the app IDs `app.jot` (`android/app/build.gradle.kts`) and `app.jot.mac` (`mac/install.sh`).
+
+### Tests
+
 ```sh
 node server/test/server.test.mjs   # server + two reference clients
 mac/test/run.sh                    # Swift core vs. spec fixtures + live sync against the Node server (Docker)
 android/build.sh test              # Kotlin vs. spec fixtures + fake-server sync (Docker)
 ```
+
 To change a crypto, logic or sync rule: change `spec/*.mjs` first, run `node spec/fixtures.mjs`, then mirror it in
 `mac/Sources/JotCore.swift` and `android/app/src/main/kotlin/app/jot/` (Logic.kt / Repo.kt / Crypto.kt).
 
+</details>
+
 ## Credits
-Code colouring: [highlight.js](https://highlightjs.org) (BSD-3, `mac/Resources/highlight.LICENSE`).
+
+Code colouring by [highlight.js](https://highlightjs.org) (BSD-3, `mac/Resources/highlight.LICENSE`).
 Android font: [Inter](https://rsms.me/inter/) (SIL OFL 1.1, `android/INTER-LICENSE.txt`).
 
 ## License
-MIT, see `LICENSE`.
+
+[MIT](LICENSE) © craftwithdave
