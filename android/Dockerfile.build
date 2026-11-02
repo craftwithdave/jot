@@ -1,0 +1,14 @@
+# Build environment for the Private Timeline Android app. Used only on the VPS to compile the APK;
+# nothing in here runs on the phone.
+FROM eclipse-temurin:17-jdk
+ENV ANDROID_HOME=/opt/android-sdk GRADLE_HOME=/opt/gradle
+ENV PATH=$PATH:/opt/android-sdk/cmdline-tools/latest/bin:/opt/android-sdk/build-tools/35.0.0:/opt/gradle/bin
+RUN apt-get update && apt-get install -y --no-install-recommends unzip curl && rm -rf /var/lib/apt/lists/* \
+ && curl -fsSL -o /tmp/ct.zip https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip \
+ && mkdir -p $ANDROID_HOME/cmdline-tools && unzip -q /tmp/ct.zip -d $ANDROID_HOME/cmdline-tools \
+ && mv $ANDROID_HOME/cmdline-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/latest && rm /tmp/ct.zip \
+ && yes | sdkmanager --licenses >/dev/null \
+ && sdkmanager "platforms;android-35" "build-tools;35.0.0" "platform-tools" >/dev/null \
+ && curl -fsSL -o /tmp/g.zip https://services.gradle.org/distributions/gradle-8.11.1-bin.zip \
+ && unzip -q /tmp/g.zip -d /opt && mv /opt/gradle-8.11.1 /opt/gradle && rm /tmp/g.zip
+WORKDIR /src

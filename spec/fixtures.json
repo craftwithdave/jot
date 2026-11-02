@@ -1,0 +1,531 @@
+{
+ "notes": [
+  {
+   "id": "n1aaaaaaaaaaaaaaaaaaaa",
+   "created": 1,
+   "updated": 10,
+   "body": "# Car maintenance\nOil change every 10,000 km. See [[Bengkel Pak Budi]] and [[Budget 2026|budget]].\n#car #todo"
+  },
+  {
+   "id": "n2aaaaaaaaaaaaaaaaaaaa",
+   "created": 2,
+   "updated": 20,
+   "body": "Bengkel Pak Budi\nGood mechanic near the office. Cheap oil change, honest about brake pads.\n#car"
+  },
+  {
+   "id": "n3aaaaaaaaaaaaaaaaaaaa",
+   "created": 3,
+   "updated": 30,
+   "body": "Budget 2026\n- rent\n- car maintenance\n- wedding savings\nLinks: [[Wedding#venue]] [[Nonexistent note]]"
+  },
+  {
+   "id": "n4aaaaaaaaaaaaaaaaaaaa",
+   "created": 4,
+   "updated": 40,
+   "body": "  ## Wedding  \nVenue booked. Catering: café Rosé. Music playlist TBD.\nPhotographer recommended by Pak Budi.\n#wedding #todo/urgent"
+  },
+  {
+   "id": "n5aaaaaaaaaaaaaaaaaaaa",
+   "created": 5,
+   "updated": 50,
+   "body": "Café ideas\nCafé Rosé has great croissants. Kopi susu at the office café.\nEmail: a#b and C#sharp and #123 are not tags."
+  },
+  {
+   "id": "n6aaaaaaaaaaaaaaaaaaaa",
+   "created": 6,
+   "updated": 60,
+   "body": "Meridian bot notes\nSolana DLMM pools, stop loss -10, trailing stop. Check the bengkel invoice too."
+  },
+  {
+   "id": "n7aaaaaaaaaaaaaaaaaaaa",
+   "created": 7,
+   "updated": 70,
+   "body": "\n\n"
+  },
+  {
+   "id": "n8aaaaaaaaaaaaaaaaaaaa",
+   "created": 8,
+   "updated": 80,
+   "body": "wedding\nDuplicate title: links to [[wedding]] must resolve to the older note. Oil."
+  }
+ ],
+ "perNote": [
+  {
+   "id": "n1aaaaaaaaaaaaaaaaaaaa",
+   "title": "Car maintenance",
+   "titleKey": "car maintenance",
+   "links": [
+    "bengkel pak budi",
+    "budget 2026"
+   ],
+   "tags": [
+    "car",
+    "todo"
+   ],
+   "backlinks": [],
+   "related": [],
+   "mentions": [
+    "n3aaaaaaaaaaaaaaaaaaaa"
+   ]
+  },
+  {
+   "id": "n2aaaaaaaaaaaaaaaaaaaa",
+   "title": "Bengkel Pak Budi",
+   "titleKey": "bengkel pak budi",
+   "links": [],
+   "tags": [
+    "car"
+   ],
+   "backlinks": [
+    "n1aaaaaaaaaaaaaaaaaaaa"
+   ],
+   "related": [
+    {
+     "id": "n4aaaaaaaaaaaaaaaaaaaa",
+     "score": 0.085516
+    }
+   ],
+   "mentions": []
+  },
+  {
+   "id": "n3aaaaaaaaaaaaaaaaaaaa",
+   "title": "Budget 2026",
+   "titleKey": "budget 2026",
+   "links": [
+    "wedding",
+    "nonexistent note"
+   ],
+   "tags": [],
+   "backlinks": [
+    "n1aaaaaaaaaaaaaaaaaaaa"
+   ],
+   "related": [
+    {
+     "id": "n8aaaaaaaaaaaaaaaaaaaa",
+     "score": 0.207218
+    }
+   ],
+   "mentions": []
+  },
+  {
+   "id": "n4aaaaaaaaaaaaaaaaaaaa",
+   "title": "Wedding",
+   "titleKey": "wedding",
+   "links": [],
+   "tags": [
+    "wedding",
+    "todo/urgent"
+   ],
+   "backlinks": [
+    "n3aaaaaaaaaaaaaaaaaaaa",
+    "n8aaaaaaaaaaaaaaaaaaaa"
+   ],
+   "related": [
+    {
+     "id": "n5aaaaaaaaaaaaaaaaaaaa",
+     "score": 0.115788
+    },
+    {
+     "id": "n2aaaaaaaaaaaaaaaaaaaa",
+     "score": 0.085516
+    }
+   ],
+   "mentions": []
+  },
+  {
+   "id": "n5aaaaaaaaaaaaaaaaaaaa",
+   "title": "Café ideas",
+   "titleKey": "cafe ideas",
+   "links": [],
+   "tags": [],
+   "backlinks": [],
+   "related": [
+    {
+     "id": "n4aaaaaaaaaaaaaaaaaaaa",
+     "score": 0.115788
+    }
+   ],
+   "mentions": []
+  },
+  {
+   "id": "n6aaaaaaaaaaaaaaaaaaaa",
+   "title": "Meridian bot notes",
+   "titleKey": "meridian bot notes",
+   "links": [],
+   "tags": [],
+   "backlinks": [],
+   "related": [],
+   "mentions": []
+  },
+  {
+   "id": "n7aaaaaaaaaaaaaaaaaaaa",
+   "title": "Untitled",
+   "titleKey": "untitled",
+   "links": [],
+   "tags": [],
+   "backlinks": [],
+   "related": [],
+   "mentions": []
+  },
+  {
+   "id": "n8aaaaaaaaaaaaaaaaaaaa",
+   "title": "wedding",
+   "titleKey": "wedding",
+   "links": [
+    "wedding"
+   ],
+   "tags": [],
+   "backlinks": [],
+   "related": [
+    {
+     "id": "n3aaaaaaaaaaaaaaaaaaaa",
+     "score": 0.207218
+    }
+   ],
+   "mentions": [
+    "n3aaaaaaaaaaaaaaaaaaaa",
+    "n4aaaaaaaaaaaaaaaaaaaa"
+   ]
+  }
+ ],
+ "tokens": [
+  {
+   "s": "Hello, World! It's café-time 2026",
+   "words": [
+    "hello",
+    "world",
+    "it",
+    "s",
+    "cafe",
+    "time",
+    "2026"
+   ],
+   "tokens": [
+    "hello",
+    "world",
+    "cafe",
+    "time",
+    "2026"
+   ]
+  },
+  {
+   "s": "Ünïcödé naïve façade — ok",
+   "words": [
+    "unicode",
+    "naive",
+    "facade",
+    "ok"
+   ],
+   "tokens": [
+    "unicode",
+    "naive",
+    "facade",
+    "ok"
+   ]
+  },
+  {
+   "s": "a b cc the yang dan kopi",
+   "words": [
+    "a",
+    "b",
+    "cc",
+    "the",
+    "yang",
+    "dan",
+    "kopi"
+   ],
+   "tokens": [
+    "cc",
+    "kopi"
+   ]
+  }
+ ],
+ "search": [
+  {
+   "q": "oil",
+   "results": [
+    {
+     "id": "n8aaaaaaaaaaaaaaaaaaaa",
+     "score": 1.065546
+    },
+    {
+     "id": "n1aaaaaaaaaaaaaaaaaaaa",
+     "score": 0.848088
+    },
+    {
+     "id": "n2aaaaaaaaaaaaaaaaaaaa",
+     "score": 0.831126
+    }
+   ]
+  },
+  {
+   "q": "oil change",
+   "results": [
+    {
+     "id": "n1aaaaaaaaaaaaaaaaaaaa",
+     "score": 1.998314
+    },
+    {
+     "id": "n2aaaaaaaaaaaaaaaaaaaa",
+     "score": 1.958348
+    }
+   ]
+  },
+  {
+   "q": "cafe",
+   "results": [
+    {
+     "id": "n5aaaaaaaaaaaaaaaaaaaa",
+     "score": 2.316209
+    },
+    {
+     "id": "n4aaaaaaaaaaaaaaaaaaaa",
+     "score": 1.252469
+    }
+   ]
+  },
+  {
+   "q": "CAFÉ ros",
+   "results": [
+    {
+     "id": "n5aaaaaaaaaaaaaaaaaaaa",
+     "score": 3.54145
+    },
+    {
+     "id": "n4aaaaaaaaaaaaaaaaaaaa",
+     "score": 2.504937
+    }
+   ]
+  },
+  {
+   "q": "pak budi",
+   "results": [
+    {
+     "id": "n2aaaaaaaaaaaaaaaaaaaa",
+     "score": 3.022277
+    },
+    {
+     "id": "n4aaaaaaaaaaaaaaaaaaaa",
+     "score": 1.846947
+    },
+    {
+     "id": "n1aaaaaaaaaaaaaaaaaaaa",
+     "score": 1.696176
+    }
+   ]
+  },
+  {
+   "q": "wed",
+   "results": [
+    {
+     "id": "n8aaaaaaaaaaaaaaaaaaaa",
+     "score": 1.746063
+    },
+    {
+     "id": "n4aaaaaaaaaaaaaaaaaaaa",
+     "score": 1.662252
+    },
+    {
+     "id": "n3aaaaaaaaaaaaaaaaaaaa",
+     "score": 1.298635
+    }
+   ]
+  },
+  {
+   "q": "the car",
+   "results": [
+    {
+     "id": "n1aaaaaaaaaaaaaaaaaaaa",
+     "score": 1.61071
+    },
+    {
+     "id": "n3aaaaaaaaaaaaaaaaaaaa",
+     "score": 0.944462
+    },
+    {
+     "id": "n2aaaaaaaaaaaaaaaaaaaa",
+     "score": 0.831126
+    }
+   ]
+  },
+  {
+   "q": "b",
+   "results": [
+    {
+     "id": "n6aaaaaaaaaaaaaaaaaaaa",
+     "score": 2.866815
+    },
+    {
+     "id": "n3aaaaaaaaaaaaaaaaaaaa",
+     "score": 2.167734
+    },
+    {
+     "id": "n4aaaaaaaaaaaaaaaaaaaa",
+     "score": 1.751943
+    },
+    {
+     "id": "n1aaaaaaaaaaaaaaaaaaaa",
+     "score": 1.633655
+    },
+    {
+     "id": "n2aaaaaaaaaaaaaaaaaaaa",
+     "score": 1.576748
+    }
+   ]
+  },
+  {
+   "q": "zzz",
+   "results": []
+  },
+  {
+   "q": "",
+   "results": []
+  },
+  {
+   "q": "maint car",
+   "results": [
+    {
+     "id": "n1aaaaaaaaaaaaaaaaaaaa",
+     "score": 3.679007
+    },
+    {
+     "id": "n3aaaaaaaaaaaaaaaaaaaa",
+     "score": 2.225395
+    }
+   ]
+  },
+  {
+   "q": "solana stop",
+   "results": [
+    {
+     "id": "n6aaaaaaaaaaaaaaaaaaaa",
+     "score": 3.829246
+    }
+   ]
+  }
+ ],
+ "edges": [
+  [
+   "n1aaaaaaaaaaaaaaaaaaaa",
+   "n2aaaaaaaaaaaaaaaaaaaa"
+  ],
+  [
+   "n1aaaaaaaaaaaaaaaaaaaa",
+   "n3aaaaaaaaaaaaaaaaaaaa"
+  ],
+  [
+   "n3aaaaaaaaaaaaaaaaaaaa",
+   "n4aaaaaaaaaaaaaaaaaaaa"
+  ],
+  [
+   "n8aaaaaaaaaaaaaaaaaaaa",
+   "n4aaaaaaaaaaaaaaaaaaaa"
+  ]
+ ],
+ "autoEdges": [
+  {
+   "a": "n2aaaaaaaaaaaaaaaaaaaa",
+   "b": "n4aaaaaaaaaaaaaaaaaaaa",
+   "kind": "related",
+   "score": 0.085516
+  },
+  {
+   "a": "n3aaaaaaaaaaaaaaaaaaaa",
+   "b": "n8aaaaaaaaaaaaaaaaaaaa",
+   "kind": "mention",
+   "score": 0
+  },
+  {
+   "a": "n4aaaaaaaaaaaaaaaaaaaa",
+   "b": "n5aaaaaaaaaaaaaaaaaaaa",
+   "kind": "related",
+   "score": 0.115788
+  }
+ ],
+ "rename": [
+  {
+   "body": "See [[Wedding]], [[wedding|the day]], [[ WEDDING #venue|v]] and [[Weddings]].",
+   "oldKey": "wedding",
+   "newTitle": "Wedding 2027",
+   "out": "See [[Wedding 2027]], [[Wedding 2027|the day]], [[Wedding 2027#venue|v]] and [[Weddings]]."
+  },
+  {
+   "body": "[[Café ideas]] [[cafe IDEAS]]",
+   "oldKey": "cafe ideas",
+   "newTitle": "Coffee",
+   "out": "[[Coffee]] [[Coffee]]"
+  },
+  {
+   "body": "no links",
+   "oldKey": "x",
+   "newTitle": "y",
+   "out": "no links"
+  }
+ ],
+ "media": [
+  {
+   "body": "- [ ] [Post](https://x.com/a/status/1) · X\n  Summary\n  ![video 0:42](jot-media:AAAAAAAAAAAAAAAAAAAAAA)\n  ![image](jot-media:BBBBBBBBBBBBBBBBBBBBBB)",
+   "media": [
+    {
+     "id": "AAAAAAAAAAAAAAAAAAAAAA",
+     "kind": "video",
+     "duration": "0:42"
+    },
+    {
+     "id": "BBBBBBBBBBBBBBBBBBBBBB",
+     "kind": "image",
+     "duration": ""
+    }
+   ]
+  },
+  {
+   "body": "inline ![image](jot-media:AAAAAAAAAAAAAAAAAAAAAA) is not media",
+   "media": []
+  },
+  {
+   "body": "![](jot-media:short)",
+   "media": []
+  },
+  {
+   "body": "![photo](jot-media:CCCCCCCCCCCCCCCCCCCCCC)  ",
+   "media": [
+    {
+     "id": "CCCCCCCCCCCCCCCCCCCCCC",
+     "kind": "image",
+     "duration": ""
+    }
+   ]
+  }
+ ],
+ "content": [
+  {
+   "json": "{\"body\":\"AI agents\\n- idea\",\"created\":1,\"updated\":2,\"cat\":\"reading\",\"dev\":\"agent\"}",
+   "pinned": false,
+   "cat": "reading"
+  },
+  {
+   "json": "{\"body\":\"x\",\"created\":1,\"updated\":2,\"pinned\":true}",
+   "pinned": true,
+   "cat": null
+  },
+  {
+   "json": "{\"body\":\"y\",\"created\":1,\"updated\":2,\"pinned\":true,\"cat\":\"reading\"}",
+   "pinned": true,
+   "cat": "reading"
+  }
+ ],
+ "resolve": [
+  [
+   "WEDDING",
+   "n4aaaaaaaaaaaaaaaaaaaa"
+  ],
+  [
+   "bengkel  pak budi",
+   "n2aaaaaaaaaaaaaaaaaaaa"
+  ],
+  [
+   "nope",
+   null
+  ]
+ ]
+}

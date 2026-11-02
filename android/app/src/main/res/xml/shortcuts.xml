@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut android:shortcutId="new" android:enabled="true" android:icon="@drawable/ic_tile"
+        android:shortcutShortLabel="@string/new_note">
+        <intent android:action="app.jot.NEW" android:targetPackage="app.jot" android:targetClass="app.jot.ui.MainActivity" />
+    </shortcut>
+</shortcuts>

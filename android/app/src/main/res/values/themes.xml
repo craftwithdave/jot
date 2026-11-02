@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Jot" parent="android:Theme.Material.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/bg</item>
+    </style>
+    <color name="bg">#FF000000</color>
+    <color name="brand">#FF64B5FF</color>
+</resources>

@@ -1,0 +1,18 @@
+# never public
+origin.txt
+android/keys/
+server/data/
+# generated / build output
+server/public/
+android/dist/
+android/app/build/
+android/.gradle/
+android/.gradle-cache/
+android/.kotlin/
+android/app/src/main/assets/
+android/app/src/test/resources/fixtures.json
+android/app/src/test/resources/vectors.json
+android/app/src/test/resources/hl-fixtures.json
+mac/test/.build/
+mac/test/Sources/JotTest/JotCore.swift
+.DS_Store

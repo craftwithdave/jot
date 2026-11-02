@@ -1,0 +1,4 @@
+# Makes the small update patches (old APK -> new APK) that the app applies itself; used only by build.sh on the VPS.
+FROM python:3.12-slim
+RUN pip install --no-cache-dir bsdiff4==1.2.6
+WORKDIR /d

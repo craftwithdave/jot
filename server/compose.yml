@@ -1,0 +1,23 @@
+# Jot notes server: stores only end-to-end encrypted notes. Put it behind an HTTPS reverse proxy (Caddy, nginx, …)
+# and keep it private (VPN such as Tailscale/WireGuard, or an IP allow-list): the first device to connect claims it.
+services:
+  jot-server:
+    image: node:22-bookworm-slim
+    container_name: jot-server
+    user: "node"
+    restart: unless-stopped
+    working_dir: /app
+    command: ["node", "server.js"]
+    environment:
+      HOST: 0.0.0.0
+      PORT: "8080"
+    volumes:
+      - ./server.js:/app/server.js:ro
+      - ./public:/app/public:ro        # app downloads/updates, filled by mac/publish.sh and android/build.sh
+      - ./data:/app/data               # encrypted notes + media (back this up)
+    ports:
+      - "127.0.0.1:8080:8080"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 128m
