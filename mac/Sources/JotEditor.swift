@@ -171,10 +171,12 @@ final class JotLayoutManager: NSLayoutManager, NSLayoutManagerDelegate {
             enumerateLineFragments(forGlyphRange: glyphRange(forCharacterRange: charRange, actualCharacterRange: nil)) { frag, used, _, g, _ in
                 let c = self.characterIndexForGlyph(at: g.location)
                 guard self.codeBlock(atChar: c) == nil else { return }
-                // a picture's line: no highlight at all (its text is hidden behind the thumbnail)
+                // a picture's or a "---" divider's line: no highlight at all (its text is hidden)
                 let full = s.lineRange(for: NSRange(location: c, length: 0))
                 var hasMedia = false
-                ts.enumerateAttribute(.jotMedia, in: full) { v, _, stop in if v != nil { hasMedia = true; stop.pointee = true } }
+                for k in [NSAttributedString.Key.jotMedia, .jotRule] where !hasMedia {
+                    ts.enumerateAttribute(k, in: full) { v, _, stop in if v != nil { hasMedia = true; stop.pointee = true } }
+                }
                 if hasMedia {
                     clip.append(NSBezierPath(rect: NSRect(x: origin.x + frag.minX - 4, y: origin.y + frag.minY, width: frag.width + 8, height: frag.height)))
                     return
@@ -433,7 +435,9 @@ final class JotTextView: NSTextView {
             let s = string as NSString
             let line = s.lineRange(for: NSRange(location: min(characterIndexForInsertion(at: p), s.length), length: 0))
             var media: NSRange?
-            if line.length > 0 { ts.enumerateAttribute(.jotMedia, in: line) { v, r, stop in if v != nil { media = r; stop.pointee = true } } }
+            for k in [NSAttributedString.Key.jotMedia, .jotRule] where media == nil && line.length > 0 {    // pictures and "---" dividers
+                ts.enumerateAttribute(k, in: line) { v, r, stop in if v != nil { media = r; stop.pointee = true } }
+            }
             if let r = media {
                 let frag = lm.lineFragmentRect(forGlyphAt: lm.glyphIndexForCharacter(at: r.location), effectiveRange: nil)
                 let below = p.y - textContainerOrigin.y >= frag.midY
@@ -1089,7 +1093,7 @@ struct EditorView: NSViewRepresentable {
             if let e = NSApp.currentEvent, [.leftMouseDown, .leftMouseUp, .leftMouseDragged].contains(e.type) {
                 return MainActor.assumeIsolated {
                     guard new.length == 0 else { return keepSelectable(textView, new, anchor: mouseAnchor, step: 0) }   // drag / shift-click
-                    mouseAnchor = offMedia(textView, safeCaret(textView, new.location), forward: true)
+                    mouseAnchor = offBlockLine(textView, safeCaret(textView, new.location), forward: true)
                     return NSRange(location: mouseAnchor, length: 0)
                 }
             }
@@ -1122,7 +1126,7 @@ struct EditorView: NSViewRepresentable {
                 if !vertical, let f = fenceLine(textView, p) {                 // hop over a collapsed ``` line
                     p = right ? min(len, NSMaxRange(f)) : max(0, f.location - 1)
                 }
-                p = offMedia(textView, p, forward: vertical ? e.keyCode == 125 : right)
+                p = offBlockLine(textView, p, forward: vertical ? e.keyCode == 125 : right)
                 if new.length == 0 && old.length == 0 { return NSRange(location: p, length: 0) }
                 let lo = min(p, movedEnd.fixed), hi = max(p, movedEnd.fixed)
                 return keepSelectable(textView, NSRange(location: lo, length: hi - lo), anchor: movedEnd.fixed, step: vertical ? 0 : (right ? 1 : -1))
@@ -1253,10 +1257,10 @@ struct EditorView: NSViewRepresentable {
                     handled = true; stop.pointee = true
                 }
                 if handled { return true }
-                // a2. start of the line under a media line: the whole media line goes (thumbnail and all)
+                // a2. start of the line under a media line or a "---" divider: the whole line goes (thumbnail and all)
                 let here = s.lineRange(for: NSRange(location: c, length: 0))
-                if c == here.location, c > 0, let m = mediaLine(tv, at: c - 1) {
-                    let full = s.lineRange(for: m.range)
+                if c == here.location, c > 0, let m = mediaLine(tv, at: c - 1)?.range ?? ruleLine(tv, at: c - 1) {
+                    let full = s.lineRange(for: m)
                     tv.insertText("", replacementRange: full)
                     tv.setSelectedRange(NSRange(location: full.location, length: 0))
                     return true
@@ -1295,9 +1299,9 @@ struct EditorView: NSViewRepresentable {
                     let next = NSMaxRange(s.lineRange(for: NSRange(location: i, length: 0)))
                     // the next line is a code block's ``` line: leave the block alone
                     if next < s.length, fenceLine(tv, next) != nil { return true }
-                    // the next line is a media line: it goes whole
-                    if next < s.length, let m = mediaLine(tv, at: next) {
-                        tv.insertText("", replacementRange: NSRange(location: i, length: NSMaxRange(m.range) - i))
+                    // the next line is a media line or a "---" divider: it goes whole
+                    if next < s.length, let m = mediaLine(tv, at: next)?.range ?? ruleLine(tv, at: next) {
+                        tv.insertText("", replacementRange: NSRange(location: i, length: NSMaxRange(m) - i))
                         tv.setSelectedRange(NSRange(location: i, length: 0))
                         return true
                     }
@@ -1346,10 +1350,10 @@ struct EditorView: NSViewRepresentable {
 
         // MARK: media (images / videos in notes)
 
-        /// the caret never stays on a media line (its text is hidden behind the thumbnail): forward → start of the next
-        /// line, backward → end of the line above
-        func offMedia(_ tv: NSTextView, _ p: Int, forward: Bool) -> Int {
-            guard mediaLine(tv, at: p) != nil else { return p }
+        /// the caret never stays on a media line (its text is hidden behind the thumbnail) or a "---" divider:
+        /// forward → start of the next line, backward → end of the line above
+        func offBlockLine(_ tv: NSTextView, _ p: Int, forward: Bool) -> Int {
+            guard mediaLine(tv, at: p) != nil || ruleLine(tv, at: p) != nil else { return p }
             let s = tv.string as NSString
             let line = s.lineRange(for: NSRange(location: min(p, s.length), length: 0))
             let hasNext = NSMaxRange(line) <= s.length && line.length > 0 && s.character(at: NSMaxRange(line) - 1) == 10
@@ -1381,6 +1385,15 @@ struct EditorView: NSViewRepresentable {
                 changes.append((para, p))
             }
             for (r, p) in changes { ts.addAttribute(.paragraphStyle, value: p, range: r) }
+        }
+        /// the "---" divider line containing position i (as styled, so not one inside a code block), without its line break
+        func ruleLine(_ tv: NSTextView, at i: Int) -> NSRange? {
+            let s = tv.string as NSString
+            guard let ts = tv.textStorage, i >= 0, i <= s.length, s.length > 0 else { return nil }
+            var line = s.lineRange(for: NSRange(location: min(i, s.length), length: 0))
+            if line.length > 0, s.character(at: NSMaxRange(line) - 1) == 10 { line.length -= 1 }
+            guard line.length > 0, ts.attribute(.jotRule, at: line.location, effectiveRange: nil) != nil else { return nil }
+            return line
         }
         /// the media line containing position i (as styled, so not one inside a code block), in note coordinates
         func mediaLine(_ tv: NSTextView, at i: Int) -> Media.Line? {
@@ -1864,7 +1877,7 @@ struct EditorView: NSViewRepresentable {
                 marks(m.range, 1, 1)
             }
             // media lines: the text (from "!") is always hidden behind the thumbnail; the caret never stops on the line
-            // (offMedia), Backspace on the line below removes it
+            // (offBlockLine), Backspace on the line below removes it
             // (after the inline styles, which an id with "_" or "*" could otherwise catch)
             for ml in mediaLines {
                 for k in [NSAttributedString.Key.link, .underlineStyle, .strikethroughStyle, .backgroundColor, .kern] { ts.removeAttribute(k, range: ml.body) }
