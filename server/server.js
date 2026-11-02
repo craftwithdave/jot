@@ -1,4 +1,4 @@
-// Notes sync server: stores end-to-end encrypted notes for the Mac and Android Notes apps. Plain Node, no dependencies.
+// Notes sync server: stores end-to-end encrypted notes for the Jot Mac and Android apps. Plain Node, no dependencies.
 //
 // Run it behind an HTTPS reverse proxy and keep it private (VPN / IP allow-list); see server/compose.yml.
 // The server never sees plaintext: every note is sealed on the device with the data key (AES-256-GCM),
