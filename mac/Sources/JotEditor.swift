@@ -696,6 +696,7 @@ struct EditorView: NSViewRepresentable {
         tv.font = Style.base
         tv.textColor = .labelColor
         tv.insertionPointColor = .controlAccentColor
+        tv.selectedTextAttributes = [.backgroundColor: NSColor.selectedTextBackgroundColor]   // never recolour selected text: hidden (clear) symbols like a divider's "---" stay hidden
         tv.textContainerInset = NSSize(width: 18 - Style.hang, height: 10)     // + hang indent on every paragraph
         tv.isAutomaticQuoteSubstitutionEnabled = false
         tv.isAutomaticDashSubstitutionEnabled = false
